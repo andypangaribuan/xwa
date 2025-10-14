@@ -27,10 +27,16 @@ function spell {
 #: launch the project
 function launch {
   set -a
-  source res/envs/local-prod.env
+  source res/local.env
   set +a
-  # go run .
-  ./.goapp
+
+  [ -f "./.goapp" ] && ./.goapp || go run .
+
+  # if [ -e "./.goapp" ]; then
+  #   ./.goapp
+  # else
+  #   go run .
+  # fi
 }
 
 
@@ -47,10 +53,10 @@ function pid {
 #: terminate the service
 function kill {
   set -a
-  source res/envs/local-prod.env
+  source res/envs/local.env
   set +a
 
-  curl localhost:$APP_REST_PORT/private/terminate
+  curl localhost:$APP_HTTP_PORT/private/terminate
 }
 
 

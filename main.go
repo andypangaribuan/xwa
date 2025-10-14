@@ -24,7 +24,7 @@ func main() {
 	util.ExitWithCtrlC()
 	fm.CallOrderedInit()
 	event.WA()
-	server.FuseR(app.Env.AppRestPort, rest)
+	server.FuseR(app.Env.AppHttpPort, rest)
 }
 
 func rest(router server.RouterR) {

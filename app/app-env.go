@@ -18,7 +18,7 @@ func initEnv() {
 		AppVersion:            gm.Util.Env.GetString("APP_VERSION", "0.0.0"),
 		AppEnv:                gm.Util.Env.GetAppEnv("APP_ENV"),
 		AppTimezone:           gm.Util.Env.GetString("APP_TIMEZONE"),
-		AppRestPort:           gm.Util.Env.GetInt("APP_REST_PORT"),
+		AppHttpPort:           gm.Util.Env.GetInt("APP_HTTP_PORT"),
 		AppAutoRecover:        gm.Util.Env.GetBool("APP_AUTO_RECOVER"),
 		AppServerPrintOnError: gm.Util.Env.GetBool("APP_SERVER_PRINT_ON_ERROR"),
 

@@ -17,7 +17,7 @@ type stuEnv struct {
 	AppVersion            string
 	AppEnv                ice.AppEnv
 	AppTimezone           string
-	AppRestPort           int
+	AppHttpPort           int
 	AppAutoRecover        bool
 	AppServerPrintOnError bool
 
