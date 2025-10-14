@@ -17,12 +17,19 @@ import (
 	"time"
 )
 
-func ExitWithCtrlC() {
+func ExitWithCtrlC(waitDuration ...time.Duration) {
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+
 	go func() {
 		<-sigChan
-		time.Sleep(time.Second * 10)
+
+		wait := time.Second * 10
+		if len(waitDuration) > 0 {
+			wait = waitDuration[0]
+		}
+
+		time.Sleep(wait)
 		os.Exit(1)
 	}()
 }
