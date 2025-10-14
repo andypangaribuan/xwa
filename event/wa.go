@@ -13,9 +13,12 @@ package event
 import (
 	"context"
 	"fmt"
+	"os"
 	"xwa/app"
+	"xwa/util"
 
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/mdp/qrterminal/v3"
 	"go.mau.fi/whatsmeow"
 	"go.mau.fi/whatsmeow/store"
 	"go.mau.fi/whatsmeow/store/sqlstore"
@@ -43,4 +46,27 @@ func WA() {
 	clientLog := waLog.Stdout("Client", "WARN", true)
 	waClient.client = whatsmeow.NewClient(deviceStore, clientLog)
 	waClient.client.AddEventHandler(waEventHandler)
+
+	if waClient.client.Store.ID == nil {
+		qrChan, _ := waClient.client.GetQRChannel(context.Background())
+		err = waClient.client.Connect()
+		if err != nil {
+			panic(err)
+		}
+
+		for evt := range qrChan {
+			if evt.Event == "code" {
+				qrterminal.GenerateHalfBlock(evt.Code, qrterminal.L, os.Stdout)
+			} else {
+				fmt.Println("Login event:", evt.Event)
+			}
+		}
+	} else {
+		err = waClient.client.Connect()
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	go util.WaitUntilCtrlC(waClient.client.Disconnect)
 }

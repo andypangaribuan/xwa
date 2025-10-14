@@ -26,3 +26,13 @@ func ExitWithCtrlC() {
 		os.Exit(1)
 	}()
 }
+
+func WaitUntilCtrlC(then ...func()) {
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+	<-sigChan
+
+	for _, fn := range then {
+		fn()
+	}
+}

@@ -12,7 +12,7 @@ package event
 
 import "go.mau.fi/whatsmeow/types/events"
 
-func waEventHandler(evt interface{}) {
+func waEventHandler(evt any) {
 	switch v := evt.(type) {
 	case *events.Message:
 		if v.Info.IsFromMe {

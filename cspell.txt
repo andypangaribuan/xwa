@@ -3,6 +3,7 @@ gmod
 whatsmeow
 mattn
 sqlstore
+qrterminal
 
 
 healthz

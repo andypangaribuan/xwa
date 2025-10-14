@@ -12,6 +12,7 @@ package main
 
 import (
 	"xwa/app"
+	"xwa/event"
 	"xwa/handler"
 	"xwa/util"
 
@@ -22,6 +23,7 @@ import (
 func main() {
 	util.ExitWithCtrlC()
 	fm.CallOrderedInit()
+	event.WA()
 	server.FuseR(app.Env.AppRestPort, rest)
 }
 
