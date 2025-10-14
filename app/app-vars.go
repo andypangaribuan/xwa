@@ -13,9 +13,6 @@ package app
 import "xwa/ice"
 
 var (
-	Env           *stuEnv
-	WA            ice.WA
-	RandomColors  []string
-	RandomNumbers []string
-	RandomWords   []string
+	Env *stuEnv
+	WA  ice.WA
 )

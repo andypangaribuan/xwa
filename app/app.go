@@ -23,8 +23,4 @@ func init() {
 		SetTimezone(Env.AppTimezone).
 		SetClogAddress(Env.ClogAddress, Env.AppName, Env.AppVersion).
 		Commit()
-
-	RandomColors = []string{"blue", "white", "black", "yellow", "purple", "orange", "pink", "green", "red"}
-	RandomNumbers = []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
-	RandomWords = []string{"nova", "core", "arc", "pilot", "grid", "spark", "pulse", "forge", "loop", "echo", "mesh", "cell", "link", "path", "core", "helix", "layer"}
 }
