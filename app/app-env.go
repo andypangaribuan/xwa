@@ -25,11 +25,10 @@ func initEnv() {
 		ZInAuthIps:  gm.Util.Env.GetStringSlice("ZIN_AUTH_IPS", ","),
 		ClogAddress: gm.Util.Env.GetString("CLOG_ADDRESS", ""),
 
-		WaLinkedDeviceName:        gm.Util.Env.GetString("WA_LINKED_DEVICE_NAME"),
-		WaMyNumber:                gm.Util.Env.GetStringSlice("WA_MY_NUMBER", ","),
-		WaSqlitePath:              gm.Util.Env.GetString("WA_SQLITE_PATH"),
-		WaDefaultPhoneCountryCode: gm.Util.Env.GetString("WA_DEFAULT_PHONE_COUNTRY_CODE"),
-		WaDefaultServer:           gm.Util.Env.GetString("WA_DEFAULT_SERVER"),
-		WaSuperUserPhone:          gm.Util.Env.GetStringSlice("WA_SUPER_USER_PHONE", ","),
+		WaLinkedDeviceName: gm.Util.Env.GetString("WA_LINKED_DEVICE_NAME", "xwa"),
+		WaMyNumber:         gm.Util.Env.GetStringSlice("WA_MY_NUMBER", ","),
+		WaSqlitePath:       gm.Util.Env.GetString("WA_SQLITE_PATH", "res/wa.db"),
+		WaDefaultServer:    gm.Util.Env.GetString("WA_DEFAULT_SERVER", "s.whatsapp.net"),
+		WaSuperUserPhone:   gm.Util.Env.GetStringSlice("WA_SUPER_USER_PHONE", ",", []string{}),
 	}
 }

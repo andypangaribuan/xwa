@@ -8,14 +8,6 @@
  * All Rights Reserved.
  */
 
-package ice
+package event
 
-import (
-	"go.mau.fi/whatsmeow"
-	"go.mau.fi/whatsmeow/types"
-)
-
-type WA interface {
-	GetJoinedGroups() ([]*types.GroupInfo, error)
-	SendMessage(user string, server *string, conversation *string) (*whatsmeow.SendResponse, error)
-}
+var waClient *stuWAClient

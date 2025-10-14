@@ -28,10 +28,7 @@ func main() {
 func rest(router server.RouterR) {
 	router.AutoRecover(app.Env.AppAutoRecover)
 	router.PrintOnError(app.Env.AppServerPrintOnError)
-	router.NoLog([]string{
-		"GET: /healthz",
-		"GET: /private/client-ip",
-	})
+	router.NoLog([]string{"GET: /healthz"})
 
 	router.Endpoints(nil, nil, map[string][]func(server.FuseRContext) any{
 		"GET: /healthz":           {handler.Private.Healthz},

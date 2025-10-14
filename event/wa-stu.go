@@ -8,14 +8,15 @@
  * All Rights Reserved.
  */
 
-package ice
+package event
 
 import (
+	"context"
+
 	"go.mau.fi/whatsmeow"
-	"go.mau.fi/whatsmeow/types"
 )
 
-type WA interface {
-	GetJoinedGroups() ([]*types.GroupInfo, error)
-	SendMessage(user string, server *string, conversation *string) (*whatsmeow.SendResponse, error)
+type stuWAClient struct {
+	ctx    context.Context
+	client *whatsmeow.Client
 }
