@@ -1,0 +1,71 @@
+#!/bin/bash
+
+# Copyright (c) 2025.
+# Created by Andy Pangaribuan. All Rights Reserved.
+# This product is protected by copyright and distributed under
+# licenses restricting copying, distribution and decompilation.
+
+. ~/.base-taskfile
+
+
+#: update + check
+function run {
+  go mod tidy
+  go vet
+  gofmt -l .
+  golangci-lint run
+  staticcheck ./...
+}
+
+
+#: run cspell to check the project words
+function spell {
+  spell-go
+}
+
+
+#: launch the project
+function launch {
+  set -a
+  source res/envs/local-prod.env
+  set +a
+  # go run .
+  ./.goapp
+}
+
+
+#: show pid
+function pid {
+  if [[ "$(uname)" == "Darwin" ]]; then
+    sudo netstat -anv | awk 'NR==1 || NR==2 || /19191/' | egrep --color "\b(pid)\b|$"
+  else
+    sudo netstat -nlp | awk 'NR==1 || NR==2 || /19191/' | egrep --color "\b(PID)\b|$"
+  fi
+}
+
+
+#: terminate the service
+function kill {
+  set -a
+  source res/envs/local-prod.env
+  set +a
+
+  curl localhost:$APP_REST_PORT/private/terminate
+}
+
+
+#: build the binary
+function build {
+  rm -rf vendor
+  rm -rf .goapp
+  
+  go mod vendor
+  CGO_ENABLED=1 \
+  GO111MODULE=on \
+  go build -mod vendor -ldflags="-w -s" -o .goapp
+  rm -rf vendor
+}
+
+
+#: space
+___ "$@"
