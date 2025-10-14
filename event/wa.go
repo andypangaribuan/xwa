@@ -49,7 +49,7 @@ func WA() {
 
 	if waClient.client.Store.ID == nil {
 		qrChan, _ := waClient.client.GetQRChannel(context.Background())
-		err = waClient.client.Connect()
+		err := waClient.client.Connect()
 		if err != nil {
 			panic(err)
 		}
@@ -62,7 +62,7 @@ func WA() {
 			}
 		}
 	} else {
-		err = waClient.client.Connect()
+		err := waClient.client.Connect()
 		if err != nil {
 			panic(err)
 		}

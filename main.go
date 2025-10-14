@@ -23,7 +23,7 @@ import (
 func main() {
 	util.ExitWithCtrlC()
 	fm.CallOrderedInit()
-	event.WA()
+	go event.WA()
 	server.FuseR(app.Env.AppHttpPort, rest)
 }
 
@@ -38,7 +38,9 @@ func rest(router server.RouterR) {
 	})
 
 	router.Endpoints(nil, handler.Auth.ValidateLocalIP, map[string][]func(server.FuseRContext) any{
-		"GET: /private/terminate": {handler.Private.Terminate},
+		"GET: /private/terminate":     {handler.Private.Terminate},
+		"GET: /private/joined-groups": {handler.Private.GetJoinedGroups},
+		"GET: /private/my-user":       {handler.Private.GetMyUser},
 	})
 
 	// if app.Env.AppType == "api" {

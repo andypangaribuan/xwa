@@ -20,11 +20,38 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
+func (slf *stuWAClient) isClientAvailable() error {
+	if slf.client == nil {
+		return errors.New("client is nil")
+	}
+
+	return nil
+}
+
+func (slf *stuWAClient) MyUser() (string, error) {
+	err := slf.isClientAvailable()
+	if err != nil {
+		return "", err
+	}
+
+	return slf.client.Store.LID.User, nil
+}
+
 func (slf *stuWAClient) GetJoinedGroups() ([]*types.GroupInfo, error) {
+	err := slf.isClientAvailable()
+	if err != nil {
+		return nil, err
+	}
+
 	return slf.client.GetJoinedGroups(slf.ctx)
 }
 
 func (slf *stuWAClient) SendMessage(user string, server *string, conversation *string) (*whatsmeow.SendResponse, error) {
+	err := slf.isClientAvailable()
+	if err != nil {
+		return nil, err
+	}
+
 	senderServer := app.Env.WaDefaultServer
 	if server != nil {
 		senderServer = *server

@@ -14,6 +14,8 @@ package private
 import (
 	getclientip "xwa/handler/private/get-client-ip"
 	gethealth "xwa/handler/private/get-health"
+	getjoinedgroups "xwa/handler/private/get-joined-groups"
+	getmyuser "xwa/handler/private/get-my-user"
 	"xwa/handler/private/terminate"
 
 	"github.com/andypangaribuan/gmod/server"
@@ -31,4 +33,12 @@ func (*Handler) GetClientIP(ctx server.FuseRContext) any {
 
 func (*Handler) Terminate(ctx server.FuseRContext) any {
 	return terminate.Exec(ctx)
+}
+
+func (*Handler) GetJoinedGroups(ctx server.FuseRContext) any {
+	return getjoinedgroups.Exec(ctx)
+}
+
+func (*Handler) GetMyUser(ctx server.FuseRContext) any {
+	return getmyuser.Exec(ctx)
 }

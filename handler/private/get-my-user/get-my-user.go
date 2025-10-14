@@ -8,15 +8,20 @@
  * All Rights Reserved.
  */
 
-package ice
+/* cspell: disable-next-line */
+package getmyuser
 
 import (
-	"go.mau.fi/whatsmeow"
-	"go.mau.fi/whatsmeow/types"
+	"xwa/app"
+
+	"github.com/andypangaribuan/gmod/server"
 )
 
-type WA interface {
-	MyUser() (string, error)
-	GetJoinedGroups() ([]*types.GroupInfo, error)
-	SendMessage(user string, server *string, conversation *string) (*whatsmeow.SendResponse, error)
+func Exec(ctx server.FuseRContext) any {
+	user, err := app.WA.MyUser()
+	if err != nil {
+		return ctx.R400BadRequest(err)
+	}
+
+	return ctx.R200OK(user, server.ResponseOpt{RawResponse: true})
 }
