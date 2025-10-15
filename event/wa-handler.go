@@ -11,9 +11,10 @@
 package event
 
 import (
-	"fmt"
+	"log"
+	"xwa/app"
 
-	"go.mau.fi/whatsmeow/types"
+	"github.com/andypangaribuan/gmod/gm"
 	"go.mau.fi/whatsmeow/types/events"
 )
 
@@ -40,14 +41,37 @@ func waEventHandler(evt any) {
 
 func waGroupHandler(v *events.Message) {
 	var (
-		chatGroup    = v.Info.Chat.User
-		chatServer  = v.Info.Chat.Server
+		chatGroup  = v.Info.Chat.User
+		chatServer = v.Info.Chat.Server
 		senderUser = v.Info.Sender.User
-		jid         = types.NewJID(chatGroup, chatServer)
-		extMessage  = v.Message.GetExtendedTextMessage()
-		docMessage  = v.Message.GetDocumentMessage()
+		// jid         = types.NewJID(chatGroup, chatServer)
 		convMessage = v.Message.Conversation
+		// extMessage  = v.Message.GetExtendedTextMessage()
+		// docMessage  = v.Message.GetDocumentMessage()
 	)
 
-	fmt.Println(senderUser, jid, extMessage, docMessage, convMessage)
+	url, exists := app.Env.GroupMap[chatGroup]
+	if !exists {
+		return
+	}
+
+	if convMessage != nil {
+		body := map[string]any{
+			"chat_group":  chatGroup,
+			"chat_server": chatServer,
+			"sender_user": senderUser,
+			"message":     *convMessage,
+		}
+
+		data, code, err := gm.Http.Post(nil, url).SetBody(body).Call()
+		if err != nil {
+			log.Printf("error when call '%v'. %v.\n", url, err)
+			return
+		}
+
+		if code != 200 {
+			log.Printf("not ok when call '%v'. code: %v, data: %v.\n", url, code, string(data))
+			return
+		}
+	}
 }

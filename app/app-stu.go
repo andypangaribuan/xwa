@@ -29,4 +29,6 @@ type stuEnv struct {
 	WaSqlitePath       string
 	WaDefaultServer    string
 	WaSuperUserPhone   []string
+
+	GroupMap map[string]string
 }
