@@ -43,6 +43,10 @@ func rest(router server.RouterR) {
 		"GET: /private/my-user":       {handler.Private.GetMyUser},
 	})
 
+	router.Endpoints(nil, handler.Auth.ValidateIP, map[string][]func(server.FuseRContext) any{
+		"GET: /send/message": {handler.Send.Message},
+	})
+
 	// if app.Env.AppType == "api" {
 	// 	router.Endpoints(nil, handler.Auth.ValidateIP, map[string][]func(server.FuseRContext) any{
 	// 		"GET: /wa/groups":       {handler.WA.GetGroups},

@@ -8,16 +8,16 @@
  * All Rights Reserved.
  */
 
-package handler
+package send
 
 import (
-	"xwa/handler/auth"
-	"xwa/handler/private"
-	"xwa/handler/send"
+	"xwa/handler/send/message"
+
+	"github.com/andypangaribuan/gmod/server"
 )
 
-var (
-	Private *private.Handler
-	Auth    *auth.Handler
-	Send    *send.Handler
-)
+type Handler struct{}
+
+func (*Handler) Message(ctx server.FuseRContext) any {
+	return message.Exec(ctx)
+}

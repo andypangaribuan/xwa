@@ -12,6 +12,7 @@ package event
 
 import (
 	"log"
+	"strings"
 	"xwa/app"
 
 	"github.com/andypangaribuan/gmod/gm"
@@ -44,23 +45,44 @@ func waGroupHandler(v *events.Message) {
 		chatGroup  = v.Info.Chat.User
 		chatServer = v.Info.Chat.Server
 		senderUser = v.Info.Sender.User
+		extMessage = v.Message.GetExtendedTextMessage()
+		// convMessage = v.Message.Conversation
 		// jid         = types.NewJID(chatGroup, chatServer)
-		convMessage = v.Message.Conversation
-		// extMessage  = v.Message.GetExtendedTextMessage()
 		// docMessage  = v.Message.GetDocumentMessage()
 	)
+
+	// fmt.Println(extMessage, docMessage)
 
 	url, exists := app.Env.GroupMap[chatGroup]
 	if !exists {
 		return
 	}
 
-	if convMessage != nil {
+	if extMessage != nil && extMessage.Text != nil {
+		message := *extMessage.Text
+		isMyTag := false
+
+		for _, myNumber := range app.Env.WaMyNumber {
+			myTag := "@" + myNumber + " "
+			if len(message) > len(myTag) && message[:len(myTag)] == myTag {
+				isMyTag = true
+				message = strings.TrimSpace(message[len(myTag):])
+				if message == "" {
+					return
+				}
+				break
+			}
+		}
+
+		if !isMyTag {
+			return
+		}
+
 		body := map[string]any{
 			"chat_group":  chatGroup,
 			"chat_server": chatServer,
 			"sender_user": senderUser,
-			"message":     *convMessage,
+			"message":     message,
 		}
 
 		data, code, err := gm.Http.Post(nil, url).SetBody(body).Call()
