@@ -40,14 +40,14 @@ func waEventHandler(evt any) {
 
 func waGroupHandler(v *events.Message) {
 	var (
-		chatUser    = v.Info.Chat.User
+		chatGroup    = v.Info.Chat.User
 		chatServer  = v.Info.Chat.Server
-		senderPhone = v.Info.Sender.User
-		jid         = types.NewJID(chatUser, chatServer)
+		senderUser = v.Info.Sender.User
+		jid         = types.NewJID(chatGroup, chatServer)
 		extMessage  = v.Message.GetExtendedTextMessage()
 		docMessage  = v.Message.GetDocumentMessage()
 		convMessage = v.Message.Conversation
 	)
 
-	fmt.Println(senderPhone, jid, extMessage, docMessage, convMessage)
+	fmt.Println(senderUser, jid, extMessage, docMessage, convMessage)
 }
