@@ -47,11 +47,8 @@ func waGroupHandler(v *events.Message) {
 		senderUser = v.Info.Sender.User
 		extMessage = v.Message.GetExtendedTextMessage()
 		// convMessage = v.Message.Conversation
-		// jid         = types.NewJID(chatGroup, chatServer)
 		// docMessage  = v.Message.GetDocumentMessage()
 	)
-
-	// fmt.Println(extMessage, docMessage)
 
 	url, exists := app.Env.GroupMap[chatGroup]
 	if !exists {

@@ -46,13 +46,4 @@ func rest(router server.RouterR) {
 	router.Endpoints(nil, handler.Auth.ValidateIP, map[string][]func(server.FuseRContext) any{
 		"POS: /send/message": {handler.Send.Message},
 	})
-
-	// if app.Env.AppType == "api" {
-	// 	router.Endpoints(nil, handler.Auth.ValidateIP, map[string][]func(server.FuseRContext) any{
-	// 		"GET: /wa/groups":       {handler.WA.GetGroups},
-	// 		"POS: /wa/send-message": {handler.WA.SendMessage},
-	// 		"POS: /wa/send-otp":     {handler.WA.SendOtp},
-	// 		"GET: /wa/otp-code":     {handler.WA.GetOtpCode},
-	// 	})
-	// }
 }
