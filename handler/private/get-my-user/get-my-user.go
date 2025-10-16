@@ -12,16 +12,17 @@
 package getmyuser
 
 import (
+	"fmt"
 	"xwa/app"
 
 	"github.com/andypangaribuan/gmod/server"
 )
 
 func Exec(ctx server.FuseRContext) any {
-	user, err := app.WA.MyUser()
+	phone, user, err := app.WA.MyUser()
 	if err != nil {
 		return ctx.R400BadRequest(err)
 	}
 
-	return ctx.R200OK(user, server.ResponseOpt{RawResponse: true})
+	return ctx.R200OK(fmt.Sprintf("%v: %v", phone, user), server.ResponseOpt{RawResponse: true})
 }

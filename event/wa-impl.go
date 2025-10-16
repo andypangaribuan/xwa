@@ -28,13 +28,13 @@ func (slf *stuWAClient) isClientAvailable() error {
 	return nil
 }
 
-func (slf *stuWAClient) MyUser() (string, error) {
+func (slf *stuWAClient) MyUser() (string, string, error) {
 	err := slf.isClientAvailable()
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 
-	return slf.client.Store.LID.User, nil
+	return slf.client.Store.ID.User, slf.client.Store.LID.User, nil
 }
 
 func (slf *stuWAClient) GetJoinedGroups() ([]*types.GroupInfo, error) {

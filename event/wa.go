@@ -68,5 +68,12 @@ func WA() {
 		}
 	}
 
+	err = waClient.isClientAvailable()
+	if err == nil {
+		user := waClient.client.Store.LID.User
+		phone := waClient.client.Store.ID.User
+		app.Env.WaMyNumber = []string{phone, user}
+	}
+
 	go util.WaitUntilCtrlC(waClient.client.Disconnect)
 }

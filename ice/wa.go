@@ -16,7 +16,7 @@ import (
 )
 
 type WA interface {
-	MyUser() (string, error)
+	MyUser() (string, string, error)
 	GetJoinedGroups() ([]*types.GroupInfo, error)
 	SendMessage(user string, server *string, conversation *string) (*whatsmeow.SendResponse, error)
 }

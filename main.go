@@ -44,7 +44,7 @@ func rest(router server.RouterR) {
 	})
 
 	router.Endpoints(nil, handler.Auth.ValidateIP, map[string][]func(server.FuseRContext) any{
-		"GET: /send/message": {handler.Send.Message},
+		"POS: /send/message": {handler.Send.Message},
 	})
 
 	// if app.Env.AppType == "api" {
