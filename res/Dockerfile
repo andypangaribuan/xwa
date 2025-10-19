@@ -14,7 +14,7 @@ RUN CGO_ENABLED=1 \
     GO111MODULE=on \
     GOOS=linux \
     GOARCH=amd64 \
-    go build -mod vendor -ldflags="-w -s" -o /.goapp
+    go build -mod vendor -ldflags '-extldflags "-static"' -o /.goapp
 
 
 

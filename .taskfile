@@ -80,7 +80,7 @@ function build-image {
   image=ghcr.io/andypangaribuan/xwa
 
   docker rmi $image:$version || true
-  docker buildx build --no-cache \
+  docker build --no-cache \
     -t $image:$version \
     -f ./res/Dockerfile .
 }
