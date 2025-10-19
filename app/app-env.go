@@ -53,7 +53,7 @@ func initEnv() {
 		ClogAddress: gm.Util.Env.GetString("CLOG_ADDRESS", ""),
 
 		WaLinkedDeviceName: gm.Util.Env.GetString("WA_LINKED_DEVICE_NAME", "xwa"),
-		WaSqlitePath:       gm.Util.Env.GetString("WA_SQLITE_PATH", "res/wa.db"),
+		WaSqlitePath:       gm.Util.Env.GetString("WA_SQLITE_PATH", "wa.db"),
 		WaDefaultServer:    gm.Util.Env.GetString("WA_DEFAULT_SERVER", "s.whatsapp.net"),
 
 		GroupMap: groupMap,

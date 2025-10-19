@@ -73,5 +73,18 @@ function build {
 }
 
 
+
+#: build docker image
+function build-image {
+  version=1.0.0
+  image=ghcr.io/andypangaribuan/xwa
+
+  docker rmi $image:$version || true
+  docker buildx build --no-cache \
+    -t $image:$version \
+    -f ./res/Dockerfile .
+}
+
+
 #: space
 ___ "$@"

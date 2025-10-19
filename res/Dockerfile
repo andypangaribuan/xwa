@@ -5,9 +5,12 @@ FROM golang:${GO_VERSION} AS builder
 WORKDIR /goapp
 COPY . .
 
+# Install build dependencies for CGO
+RUN apk add --no-cache gcc musl-dev
+
 RUN go mod tidy
 RUN go mod vendor
-RUN CGO_ENABLED=0 \
+RUN CGO_ENABLED=1 \
     GO111MODULE=on \
     GOOS=linux \
     GOARCH=amd64 \
@@ -16,7 +19,7 @@ RUN CGO_ENABLED=0 \
 
 
 FROM gcr.io/distroless/static
-LABEL maintainer="Andy Pangaribuan <andypangaribuan@treasury.id>"
+LABEL maintainer="Andy Pangaribuan <iam.pangaribuan@gmail.com>"
 
 ARG TZ=Asia/Jakarta
 ENV TZ=${TZ}
