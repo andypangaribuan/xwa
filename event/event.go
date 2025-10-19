@@ -10,10 +10,6 @@
 
 package event
 
-import "sync"
-
-var (
-	waClient         *stuWAClient
-	waSenderServer   map[string]string
-	waMxSenderServer sync.Mutex
-)
+func init() {
+	waSenderServer = make(map[string]string, 0)
+}

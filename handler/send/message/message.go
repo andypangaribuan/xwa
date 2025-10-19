@@ -29,9 +29,9 @@ type stuRequest struct {
 }
 
 type stuReqBody struct {
-	ChatGroup  string `json:"chat_group"`
-	ChatServer string `json:"chat_server"`
-	Message    string `json:"message"`
+	ChatGroup  string  `json:"chat_group"`
+	ChatServer *string `json:"chat_server"`
+	Message    string  `json:"message"`
 }
 
 func Exec(ctx server.FuseRContext) any {
@@ -64,9 +64,8 @@ func (slf *stuHandler) validateRequest() (bool, any) {
 	}
 
 	nilOrEmptyKey := fm.FindNilOrEmptyString(map[string]any{
-		"chat_group":  req.body.ChatGroup,
-		"chat_server": req.body.ChatServer,
-		"message":     req.body.Message,
+		"chat_group": req.body.ChatGroup,
+		"message":    req.body.Message,
 	})
 
 	if nilOrEmptyKey != "" {
@@ -79,7 +78,7 @@ func (slf *stuHandler) validateRequest() (bool, any) {
 func (slf *stuHandler) process() any {
 	ctx, _, req := slf.controller()
 
-	_, err := app.WA.SendMessage(req.body.ChatGroup, &req.body.ChatServer, &req.body.Message)
+	_, err := app.WA.SendMessage(req.body.ChatGroup, req.body.ChatServer, &req.body.Message)
 	if err != nil {
 		return ctx.R400BadRequest(err)
 	}

@@ -55,6 +55,11 @@ func (slf *stuWAClient) SendMessage(user string, server *string, conversation *s
 	senderServer := app.Env.WaDefaultServer
 	if server != nil {
 		senderServer = *server
+	} else {
+		server := findSenderServer(user)
+		if server != nil {
+			senderServer = *server
+		}
 	}
 
 	jid := types.NewJID(user, senderServer)

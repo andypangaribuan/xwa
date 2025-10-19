@@ -42,10 +42,11 @@ func waEventHandler(evt any) {
 
 func waGroupHandler(v *events.Message) {
 	var (
-		chatGroup  = v.Info.Chat.User
-		chatServer = v.Info.Chat.Server
-		senderUser = v.Info.Sender.User
-		extMessage = v.Message.GetExtendedTextMessage()
+		chatGroup   = v.Info.Chat.User
+		chatServer  = v.Info.Chat.Server
+		senderUser  = v.Info.Sender.User
+		senderPhone = v.Info.SenderAlt.User
+		extMessage  = v.Message.GetExtendedTextMessage()
 		// convMessage = v.Message.Conversation
 		// docMessage  = v.Message.GetDocumentMessage()
 	)
@@ -76,10 +77,11 @@ func waGroupHandler(v *events.Message) {
 		}
 
 		body := map[string]any{
-			"chat_group":  chatGroup,
-			"chat_server": chatServer,
-			"sender_user": senderUser,
-			"message":     message,
+			"chat_group":   chatGroup,
+			"chat_server":  chatServer,
+			"sender_user":  senderUser,
+			"sender_phone": senderPhone,
+			"message":      message,
 		}
 
 		data, code, err := gm.Http.Post(nil, url).SetBody(body).Call()
