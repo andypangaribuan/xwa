@@ -35,7 +35,9 @@ func initEnv() {
 
 				jid := gm.Util.Env.GetString(key+"JID", "")
 				url := gm.Util.Env.GetString(key+"PUSH_URL", "")
-				groupMap[jid] = url
+				if jid != "" && url != "" {
+					groupMap[jid] = url
+				}
 			}
 		}
 	}
@@ -52,9 +54,11 @@ func initEnv() {
 		ZInAuthIps:  gm.Util.Env.GetStringSlice("ZIN_AUTH_IPS", ","),
 		ClogAddress: gm.Util.Env.GetString("CLOG_ADDRESS", ""),
 
-		WaLinkedDeviceName: gm.Util.Env.GetString("WA_LINKED_DEVICE_NAME", "xwa"),
-		WaSqlitePath:       gm.Util.Env.GetString("WA_SQLITE_PATH", "wa.db"),
-		WaDefaultServer:    gm.Util.Env.GetString("WA_DEFAULT_SERVER", "s.whatsapp.net"),
+		WaLinkedDeviceName:    gm.Util.Env.GetString("WA_LINKED_DEVICE_NAME", "xwa"),
+		WaGroupDailyUpdateJid: gm.Util.Env.GetString("WA_GROUP_DAILY_UPDATE_JID", ""),
+		WaGroupDailyUpdateAt:  gm.Util.Env.GetStringSlice("WA_GROUP_DAILY_UPDATE_AT", ",", []string{}),
+		WaSqlitePath:          gm.Util.Env.GetString("WA_SQLITE_PATH", "wa.db"),
+		WaDefaultServer:       gm.Util.Env.GetString("WA_DEFAULT_SERVER", "s.whatsapp.net"),
 
 		GroupMap: groupMap,
 	}

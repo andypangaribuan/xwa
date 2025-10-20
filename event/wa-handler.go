@@ -11,6 +11,7 @@
 package event
 
 import (
+	"fmt"
 	"log"
 	"strings"
 	"xwa/app"
@@ -47,9 +48,20 @@ func waGroupHandler(v *events.Message) {
 		senderUser  = v.Info.Sender.User
 		senderPhone = v.Info.SenderAlt.User
 		extMessage  = v.Message.GetExtendedTextMessage()
-		// convMessage = v.Message.Conversation
+		convMessage = v.Message.Conversation
 		// docMessage  = v.Message.GetDocumentMessage()
 	)
+
+	if convMessage != nil && *convMessage == "status" && chatGroup == app.Env.WaGroupDailyUpdateJid {
+		code := "```"
+		message := fmt.Sprintf(`%v
+status : active
+service: %v
+device : %v
+%v`, code, app.Env.AppName, app.Env.WaLinkedDeviceName, code)
+		_, _ = waClient.SendMessage(chatGroup, &chatServer, &message)
+		return
+	}
 
 	url, exists := app.Env.GroupMap[chatGroup]
 	if !exists {
@@ -77,11 +89,13 @@ func waGroupHandler(v *events.Message) {
 		}
 
 		body := map[string]any{
-			"chat_group":   chatGroup,
-			"chat_server":  chatServer,
-			"sender_user":  senderUser,
-			"sender_phone": senderPhone,
-			"message":      message,
+			"chat_group":         chatGroup,
+			"chat_server":        chatServer,
+			"sender_user":        senderUser,
+			"sender_phone":       senderPhone,
+			"message":            message,
+			"from_service":       app.Env.AppName,
+			"from_linked_device": app.Env.WaLinkedDeviceName,
 		}
 
 		data, code, err := gm.Http.Post(nil, url).SetBody(body).Call()

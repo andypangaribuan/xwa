@@ -23,7 +23,7 @@ func Exec(ctx server.FuseRContext) any {
 	groups, err := app.WA.GetJoinedGroups()
 	if err == nil {
 		for _, group := range groups {
-			ls = append(ls, fmt.Sprintf("%v: %v", group.JID.User, group.GroupName))
+			ls = append(ls, fmt.Sprintf("%v: %v", group.JID.User, group.Name))
 		}
 	}
 

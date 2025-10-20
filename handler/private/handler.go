@@ -15,6 +15,7 @@ import (
 	getclientip "xwa/handler/private/get-client-ip"
 	gethealth "xwa/handler/private/get-health"
 	getjoinedgroups "xwa/handler/private/get-joined-groups"
+	getmyip "xwa/handler/private/get-my-ip"
 	getmyuser "xwa/handler/private/get-my-user"
 	"xwa/handler/private/terminate"
 
@@ -41,4 +42,8 @@ func (*Handler) GetJoinedGroups(ctx server.FuseRContext) any {
 
 func (*Handler) GetMyUser(ctx server.FuseRContext) any {
 	return getmyuser.Exec(ctx)
+}
+
+func (*Handler) GetMyIp(ctx server.FuseRContext) any {
+	return getmyip.Exec(ctx)
 }

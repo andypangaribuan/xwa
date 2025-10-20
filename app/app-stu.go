@@ -24,10 +24,12 @@ type stuEnv struct {
 	ZInAuthIps  []string
 	ClogAddress string
 
-	WaLinkedDeviceName string
-	WaMyNumber         []string
-	WaSqlitePath       string
-	WaDefaultServer    string
+	WaLinkedDeviceName    string
+	WaGroupDailyUpdateJid string
+	WaGroupDailyUpdateAt  []string
+	WaMyNumber            []string
+	WaSqlitePath          string
+	WaDefaultServer       string
 
 	GroupMap map[string]string
 }
