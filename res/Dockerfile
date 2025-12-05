@@ -17,8 +17,7 @@ RUN CGO_ENABLED=1 \
     go build -mod vendor -ldflags '-extldflags "-static"' -o /.goapp
 
 
-FROM alpine AS curlstage
-RUN apk add --no-cache curl
+FROM curlimages/curl:8.17.0 AS curlstage
 
 
 FROM gcr.io/distroless/static
