@@ -1,4 +1,4 @@
-ARG GO_VERSION=1.25.1-alpine3.22
+ARG GO_VERSION=1.25.5-alpine3.23
 
 FROM golang:${GO_VERSION} AS builder
 
