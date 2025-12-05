@@ -17,8 +17,13 @@ RUN CGO_ENABLED=1 \
     go build -mod vendor -ldflags '-extldflags "-static"' -o /.goapp
 
 
-FROM alpine:3.23 AS curlstage
-RUN apk add --no-cache curl-static
+FROM alpine AS curlstage
+RUN apk add --no-cache wget
+RUN wget -O /tmp/curl.tar.xz \
+    https://github.com/stunnel/static-curl/releases/download/8.17.0-ech/curl-linux-x86_64-musl-8.17.0-ech.tar.xz \
+    && tar -xJf /tmp/curl.tar.xz -C /tmp \
+    && cp /tmp/curl /usr/bin/curl \
+    && chmod +x /usr/bin/curl
 
 
 FROM gcr.io/distroless/static
