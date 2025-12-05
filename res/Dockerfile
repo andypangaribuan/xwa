@@ -17,6 +17,9 @@ RUN CGO_ENABLED=1 \
     go build -mod vendor -ldflags '-extldflags "-static"' -o /.goapp
 
 
+FROM alpine AS curlstage
+RUN apk add --no-cache curl
+
 
 FROM gcr.io/distroless/static
 LABEL maintainer="Andy Pangaribuan <iam.pangaribuan@gmail.com>"
@@ -27,5 +30,6 @@ ENV TZ=${TZ}
 ARG APP_VERSION=unknown
 ENV APP_VERSION=${APP_VERSION}
 
+COPY --from=curlstage /usr/bin/curl /usr/bin/curl
 COPY --from=builder /.goapp /goapp
 CMD ["/goapp"]
