@@ -30,7 +30,7 @@ go.work.sum
 
 # resources
 res/*
-!res/local.env
 !res/Dockerfile
+!res/sample.env
 
 /wa.db
