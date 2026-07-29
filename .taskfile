@@ -7,8 +7,8 @@
 
 
 
-#: update + check
-function run {
+#: perform code check
+function check {
   go mod tidy
   go vet
   gofmt -l .
