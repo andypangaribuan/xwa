@@ -7,6 +7,14 @@
 
 
 
+#: update the dependencies
+function update {
+  go get -u github.com/mdp/qrterminal/v3@latest
+  go get -u go.mau.fi/whatsmeow@latest
+  go mod tidy
+  go vet
+}
+
 #: perform code check
 function check {
   go mod tidy
