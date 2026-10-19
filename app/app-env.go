@@ -22,6 +22,11 @@ func initEnv() {
 		groupProcess = make(map[string]any, 0)
 		groupMap     = make(map[string]string, 0)
 		groups       = gm.Util.Env.GetKeysByPrefix(groupKey)
+
+		personalKey     = "WA_PERSONAL_"
+		personalProcess = make(map[string]any, 0)
+		personalMap     = make(map[string]string, 0)
+		personals       = gm.Util.Env.GetKeysByPrefix(personalKey)
 	)
 
 	for _, group := range groups {
@@ -37,6 +42,24 @@ func initEnv() {
 				url := gm.Util.Env.GetString(key+"PUSH_URL", "")
 				if jid != "" && url != "" {
 					groupMap[jid] = url
+				}
+			}
+		}
+	}
+
+	for _, personal := range personals {
+		personal = strings.ReplaceAll(personal, personalKey, "")
+		ls := strings.Split(personal, "_")
+		if len(ls) > 1 {
+			key := personalKey + ls[0] + "_"
+			_, exists := personalProcess[key]
+			if !exists {
+				personalProcess[key] = nil
+
+				jid := gm.Util.Env.GetString(key+"JID", "")
+				url := gm.Util.Env.GetString(key+"PUSH_URL", "")
+				if jid != "" && url != "" {
+					personalMap[jid] = url
 				}
 			}
 		}
@@ -60,6 +83,7 @@ func initEnv() {
 		WaSqlitePath:          gm.Util.Env.GetString("WA_SQLITE_PATH", "wa.db"),
 		WaDefaultServer:       gm.Util.Env.GetString("WA_DEFAULT_SERVER", "s.whatsapp.net"),
 
-		GroupMap: groupMap,
+		GroupMap:    groupMap,
+		PersonalMap: personalMap,
 	}
 }

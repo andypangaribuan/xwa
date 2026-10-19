@@ -31,5 +31,6 @@ type stuEnv struct {
 	WaSqlitePath          string
 	WaDefaultServer       string
 
-	GroupMap map[string]string
+	GroupMap    map[string]string
+	PersonalMap map[string]string
 }
