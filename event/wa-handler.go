@@ -30,7 +30,7 @@ func waEventHandler(evt any) {
 		if v.Info.IsGroup {
 			waGroupHandler(v)
 		} else {
-			fmt.Println("message from not group and not from me")
+			waPersonalHandler(v)
 		}
 
 		// if !v.Info.IsFromMe {
@@ -92,6 +92,65 @@ device : %v
 
 		body := map[string]any{
 			"chat_group":         chatGroup,
+			"chat_server":        chatServer,
+			"sender_user":        senderUser,
+			"sender_phone":       senderPhone,
+			"message":            message,
+			"from_service":       app.Env.AppName,
+			"from_linked_device": app.Env.WaLinkedDeviceName,
+		}
+
+		data, code, err := gm.Http.Post(nil, url).SetBody(body).Call()
+		if err != nil {
+			log.Printf("error when call '%v'. %v.\n", url, err)
+			return
+		}
+
+		if code != 200 {
+			log.Printf("not ok when call '%v'. code: %v, data: %v.\n", url, code, string(data))
+			return
+		}
+	}
+}
+
+func waPersonalHandler(v *events.Message) {
+	var (
+		chatUser    = v.Info.Chat.User
+		chatServer  = v.Info.Chat.Server
+		senderUser  = v.Info.Sender.User
+		senderPhone = v.Info.SenderAlt.User
+		extMessage  = v.Message.GetExtendedTextMessage()
+		// convMessage = v.Message.Conversation
+		// docMessage  = v.Message.GetDocumentMessage()
+	)
+
+	url, exists := app.Env.GroupMap[chatUser]
+	if !exists {
+		return
+	}
+
+	if extMessage != nil && extMessage.Text != nil {
+		message := *extMessage.Text
+		isMyTag := false
+
+		for _, myNumber := range app.Env.WaMyNumber {
+			myTag := "@" + myNumber + " "
+			if len(message) > len(myTag) && message[:len(myTag)] == myTag {
+				isMyTag = true
+				message = strings.TrimSpace(message[len(myTag):])
+				if message == "" {
+					return
+				}
+				break
+			}
+		}
+
+		if !isMyTag {
+			return
+		}
+
+		body := map[string]any{
+			"chat_user":          chatUser,
 			"chat_server":        chatServer,
 			"sender_user":        senderUser,
 			"sender_phone":       senderPhone,
