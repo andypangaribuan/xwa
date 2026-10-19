@@ -124,8 +124,10 @@ func waPersonalHandler(v *events.Message) {
 		// docMessage  = v.Message.GetDocumentMessage()
 	)
 
+	fmt.Printf("chatUser: %s\n", chatUser)
 	url, exists := app.Env.GroupMap[chatUser]
 	if !exists {
+		fmt.Println("not exists")
 		return
 	}
 
