@@ -83,7 +83,7 @@ function build {
 
 #: build docker image
 function build-image {
-  version=1.0.4
+  version=1.0.5
   image=ghcr.io/andypangaribuan/xwa
 
   docker rmi $image:$version || true
