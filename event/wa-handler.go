@@ -162,6 +162,9 @@ func waPersonalHandler(v *events.Message) {
 			"from_linked_device": app.Env.WaLinkedDeviceName,
 		}
 
+		fmt.Printf("url: %v\n", url)
+		fmt.Printf("body: %v\n", body)
+
 		data, code, err := gm.Http.Post(nil, url).SetBody(body).Call()
 		if err != nil {
 			log.Printf("error when call '%v'. %v.\n", url, err)
