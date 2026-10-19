@@ -125,7 +125,8 @@ func waPersonalHandler(v *events.Message) {
 	)
 
 	fmt.Printf("chatUser: %s\n", chatUser)
-	url, exists := app.Env.GroupMap[chatUser]
+	fmt.Printf("PersonalMap: %v\n", app.Env.PersonalMap)
+	url, exists := app.Env.PersonalMap[chatUser]
 	if !exists {
 		fmt.Println("not exists")
 		return
