@@ -124,11 +124,8 @@ func waPersonalHandler(v *events.Message) {
 		// docMessage  = v.Message.GetDocumentMessage()
 	)
 
-	fmt.Printf("chatUser: %s\n", chatUser)
-	fmt.Printf("PersonalMap: %v\n", app.Env.PersonalMap)
 	url, exists := app.Env.PersonalMap[chatUser]
 	if !exists {
-		fmt.Println("not exists")
 		return
 	}
 
@@ -161,9 +158,6 @@ func waPersonalHandler(v *events.Message) {
 			"from_service":       app.Env.AppName,
 			"from_linked_device": app.Env.WaLinkedDeviceName,
 		}
-
-		fmt.Printf("url: %v\n", url)
-		fmt.Printf("body: %v\n", body)
 
 		data, code, err := gm.Http.Post(nil, url).SetBody(body).Call()
 		if err != nil {
