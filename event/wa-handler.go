@@ -23,9 +23,9 @@ import (
 func waEventHandler(evt any) {
 	switch v := evt.(type) {
 	case *events.Message:
-		if v.Info.IsFromMe {
-			return
-		}
+		// if v.Info.IsFromMe {
+		// 	return
+		// }
 
 		if v.Info.IsGroup {
 			waGroupHandler(v)
@@ -119,35 +119,38 @@ func waPersonalHandler(v *events.Message) {
 		chatServer  = v.Info.Chat.Server
 		senderUser  = v.Info.Sender.User
 		senderPhone = v.Info.SenderAlt.User
-		extMessage  = v.Message.GetExtendedTextMessage()
-		// convMessage = v.Message.Conversation
+		// extMessage  = v.Message.GetExtendedTextMessage()
+		convMessage = v.Message.Conversation
 		// docMessage  = v.Message.GetDocumentMessage()
 	)
+
+	log.Printf("chat user: %v\n", chatUser)
+	log.Printf("message  : %v\n\n", convMessage)
 
 	url, exists := app.Env.PersonalMap[chatUser]
 	if !exists {
 		return
 	}
 
-	if extMessage != nil && extMessage.Text != nil {
-		message := *extMessage.Text
-		isMyTag := false
+	if convMessage != nil {
+		message := *convMessage
+		// isMyTag := false
 
-		for _, myNumber := range app.Env.WaMyNumber {
-			myTag := "@" + myNumber + " "
-			if len(message) > len(myTag) && message[:len(myTag)] == myTag {
-				isMyTag = true
-				message = strings.TrimSpace(message[len(myTag):])
-				if message == "" {
-					return
-				}
-				break
-			}
-		}
+		// for _, myNumber := range app.Env.WaMyNumber {
+		// 	myTag := "@" + myNumber + " "
+		// 	if len(message) > len(myTag) && message[:len(myTag)] == myTag {
+		// 		isMyTag = true
+		// 		message = strings.TrimSpace(message[len(myTag):])
+		// 		if message == "" {
+		// 			return
+		// 		}
+		// 		break
+		// 	}
+		// }
 
-		if !isMyTag {
-			return
-		}
+		// if !isMyTag {
+		// 	return
+		// }
 
 		body := map[string]any{
 			"chat_user":          chatUser,
