@@ -29,6 +29,8 @@ func waEventHandler(evt any) {
 
 		if v.Info.IsGroup {
 			waGroupHandler(v)
+		} else {
+			fmt.Println("message from not group and not from me")
 		}
 
 		// if !v.Info.IsFromMe {
