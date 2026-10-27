@@ -119,13 +119,16 @@ func waPersonalHandler(v *events.Message) {
 		chatServer  = v.Info.Chat.Server
 		senderUser  = v.Info.Sender.User
 		senderPhone = v.Info.SenderAlt.User
-		// extMessage  = v.Message.GetExtendedTextMessage()
+		extMessage  = v.Message.GetExtendedTextMessage()
 		convMessage = v.Message.Conversation
 		// docMessage  = v.Message.GetDocumentMessage()
 	)
 
-	log.Printf("chat user: %v\n", chatUser)
-	log.Printf("message  : %v\n\n", convMessage)
+	log.Printf("chat user   : %v\n", chatUser)
+	log.Printf("sender user : %v\n", senderUser)
+	log.Printf("sender phone: %v\n", senderPhone)
+	log.Printf("ext message : %v\n\n", extMessage)
+	log.Printf("conv message: %v\n\n", convMessage)
 
 	url, exists := app.Env.PersonalMap[chatUser]
 	if !exists {
