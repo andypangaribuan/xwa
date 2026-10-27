@@ -16,6 +16,7 @@ import (
 	"strings"
 	"xwa/app"
 
+	"github.com/andypangaribuan/gmod/fm"
 	"github.com/andypangaribuan/gmod/gm"
 	"go.mau.fi/whatsmeow/types/events"
 )
@@ -119,20 +120,37 @@ func waPersonalHandler(v *events.Message) {
 		chatServer  = v.Info.Chat.Server
 		senderUser  = v.Info.Sender.User
 		senderPhone = v.Info.SenderAlt.User
-		extMessage  = v.Message.GetExtendedTextMessage()
+		extMessage  *string
 		convMessage = v.Message.Conversation
 		// docMessage  = v.Message.GetDocumentMessage()
 	)
 
+	etm := v.Message.GetExtendedTextMessage()
+	if etm != nil {
+		extMessage = etm.Text
+	}
+
+	if extMessage != nil {
+		*extMessage = strings.ToLower(strings.TrimSpace(*extMessage))
+	}
+
+	if convMessage != nil {
+		*convMessage = strings.ToLower(strings.TrimSpace(*convMessage))
+	}
+
 	log.Printf("chat user   : %v\n", chatUser)
 	log.Printf("sender user : %v\n", senderUser)
 	log.Printf("sender phone: %v\n", senderPhone)
-	log.Printf("ext message : %v\n\n", extMessage)
-	log.Printf("conv message: %v\n\n", convMessage)
+	log.Printf("ext message : %v\n", fm.GetDefault(extMessage, ""))
+	log.Printf("conv message: %v\n\n", fm.GetDefault(convMessage, ""))
 
 	url, exists := app.Env.PersonalMap[chatUser]
 	if !exists {
 		return
+	}
+
+	if convMessage == nil && extMessage != nil {
+		convMessage = extMessage
 	}
 
 	if convMessage != nil {
